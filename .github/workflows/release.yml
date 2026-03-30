@@ -1,0 +1,44 @@
+name: Release Obsidian Plugin
+
+on:
+  push:
+    tags:
+      - "*"
+
+env:
+  PLUGIN_NAME: recent-notes-dataview
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Package plugin files
+        run: |
+          mkdir ${{ env.PLUGIN_NAME }}
+          cp main.js manifest.json ${{ env.PLUGIN_NAME }}
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.PLUGIN_NAME }}.zip
+            main.js
+            manifest.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
