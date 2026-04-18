@@ -2,9 +2,9 @@
 
 > An [Obsidian](https://obsidian.md) plugin that tracks your recently opened notes and lets you display them anywhere using [Dataview](https://github.com/blacksmithgu/obsidian-dataview) queries.
 
-![GitHub release](https://img.shields.io/github/v/release/bigelephant67/recent-notes-dataview?color=blue&style=flat-square)
+![GitHub release](https://img.shields.io/github/v/release/sujit-waghmare/recent-notes-dataview?color=blue&style=flat-square)
 ![Obsidian](https://img.shields.io/badge/Obsidian-v0.15.0+-purple?style=flat-square)
-![License](https://img.shields.io/github/license/bigelephant67/recent-notes-dataview?style=flat-square)
+![License](https://img.shields.io/github/license/sujit-waghmare/recent-notes-dataview?style=flat-square)
 ![Mobile](https://img.shields.io/badge/Mobile-Supported-green?style=flat-square)
 
 ---
@@ -40,7 +40,7 @@
 
 ### Manual Installation
 
-1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/bigelephant67/recent-notes-dataview/releases/latest)
+1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/sujit-waghmare/recent-notes-dataview/releases/latest)
 2. Create the folder `.obsidian/plugins/recent-notes-dataview/` in your vault
 3. Place both files inside it
 4. Go to **Settings → Community Plugins** → hit **Refresh** → enable the plugin
@@ -136,7 +136,7 @@ Matching is always **case-insensitive**. The `.md` extension is stripped automat
 
 ## 🖼 Screenshots
 
-> ![v1.2.0 update](https://github.com/bigelephant67/recent-notes-dataview/blob/4dfa316abb6354d5dc85e03bcf1bbaea669474ae/assets/screenshots/recent-note-dataview-settings.jpg)
+> ![v1.2.0 update](https://github.com/sujit-waghmare/recent-notes-dataview/blob/4dfa316abb6354d5dc85e03bcf1bbaea669474ae/assets/screenshots/recent-note-dataview-settings.jpg)
 
 ---
 
@@ -169,15 +169,15 @@ npm run build
 
 ## 🤝 Contributing
 
-- 🐛 **Bug reports** → [Open an issue](https://github.com/bigelephant67/recent-notes-dataview/issues)
-- 💡 **Feature requests** → [Start a discussion](https://github.com/bigelephant67/recent-notes-dataview/discussions)
+- 🐛 **Bug reports** → [Open an issue](https://github.com/sujit-waghmare/recent-notes-dataview/issues)
+- 💡 **Feature requests** → [Start a discussion](https://github.com/sujit-waghmare/recent-notes-dataview/discussions)
 - 💬 **Community chat** → [Discord](https://discord.gg/9b8rnKM9)
 
 ---
 
 ## 📄 License
 
-MIT © [Fat Elephant aka Waghmare](https://github.com/bigelephant67)
+MIT © [Fat Elephant aka Waghmare](https://github.com/sujit-waghmare)
 
 ---
 
