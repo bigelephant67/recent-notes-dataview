@@ -16,18 +16,18 @@
     "productivity"
   ],
   "author": {
-    "name": "Fat Elephant aka Waghmare",
-    "url": "https://github.com/bigelephant67"
+    "name": "Waghmare",
+    "url": "https://github.com/sujit-waghmare"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bigelephant67/recent-notes-dataview.git"
+    "url": "https://github.com/sujit-waghmare/recent-notes-dataview.git"
   },
   "bugs": {
-    "url": "https://github.com/bigelephant67/recent-notes-dataview/issues"
+    "url": "https://github.com/sujit-waghmare/recent-notes-dataview/issues"
   },
-  "homepage": "https://github.com/bigelephant67/recent-notes-dataview#readme",
+  "homepage": "https://github.com/sujit-waghmare/recent-notes-dataview#readme",
   "devDependencies": {
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "5.29.0",
@@ -38,4 +38,3 @@
     "tslib": "2.4.0",
     "typescript": "4.7.4"
   }
-}
