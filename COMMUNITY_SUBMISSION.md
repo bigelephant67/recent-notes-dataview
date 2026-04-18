@@ -18,7 +18,7 @@ Add plugin: Recent Notes for Dataview
 **Plugin ID:** `recent-notes-dataview`
 **Plugin Name:** Recent Notes for Dataview
 **Author:** Fat Elephant aka Waghmare
-**GitHub URL:** https://github.com/bigelephant67/recent-notes-dataview
+**GitHub URL:** https://github.com/sujit-waghmare/recent-notes-dataview
 **Description:** Tracks your recently opened notes and displays them in Dataview queries. Supports configurable count (5–10) and folder exclusions.
 
 ### Checklist (required by Obsidian)
@@ -37,7 +37,7 @@ Add plugin: Recent Notes for Dataview
 
 ## Steps to submit to the Obsidian community
 
-1. Make sure your repo is public at: https://github.com/bigelephant67/recent-notes-dataview
+1. Make sure your repo is public at: https://github.com/sujit-waghmare/recent-notes-dataview
 2. Create a release tagged exactly `1.1.0` on GitHub (the GitHub Actions workflow does this automatically when you push the tag)
 3. Fork the official releases repo: https://github.com/obsidianmd/obsidian-releases
 4. In your fork, open `community-plugins.json`
@@ -47,9 +47,9 @@ Add plugin: Recent Notes for Dataview
 {
   "id": "recent-notes-dataview",
   "name": "Recent Notes for Dataview",
-  "author": "Fat Elephant aka Waghmare",
+  "author": "Waghmare",
   "description": "Tracks your recently opened notes and displays them in Dataview queries. Supports configurable count (5–10) and folder exclusions.",
-  "repo": "bigelephant67/recent-notes-dataview"
+  "repo": "sujit-waghmare/recent-notes-dataview"
 }
 ```
 
