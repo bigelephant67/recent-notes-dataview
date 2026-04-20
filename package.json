@@ -1,6 +1,6 @@
 {
   "name": "recent-notes-dataview",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "Tracks recently opened notes and exposes them to Dataview queries.",
   "main": "main.js",
   "scripts": {
