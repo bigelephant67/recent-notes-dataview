@@ -3,9 +3,8 @@
   "name": "Recent Notes for Dataview",
   "version": "1.3.0",
   "minAppVersion": "0.15.0",
-  "description": "Tracks recently opened notes and exposes them to Dataview queries. Configure how many recent notes to show in Settings.",
+  "description": "Helps to add recently opened notes in dataview.",
   "author": "Waghmare",
   "authorUrl": "https://github.com/sujit-waghmare",
-  "fundingUrl": "",
   "isDesktopOnly": false
 }
