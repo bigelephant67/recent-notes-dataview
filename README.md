@@ -135,8 +135,11 @@ Matching is always **case-insensitive**. The `.md` extension is stripped automat
 ---
 
 ## 🖼 Screenshots
-
+### Settings
 > ![v1.2.0 update](https://github.com/sujit-waghmare/recent-notes-dataview/blob/4dfa316abb6354d5dc85e03bcf1bbaea669474ae/assets/screenshots/recent-note-dataview-settings.jpg)
+
+### Showcase
+> ![preview](https://github.com/sujit-waghmare/recent-notes-dataview/blob/main/assets/screenshots/recent-notes-preview.png)
 
 ---
 
