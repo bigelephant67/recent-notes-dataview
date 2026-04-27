@@ -250,7 +250,7 @@ else {
   if (files.length === 0) {
     dv.paragraph("No recent notes yet — open a few notes first!");
   } else {
-    dv.table(["Note", "Modified", "Folder"],
+    dv.table(["Note", "Recently Opened", "Folder"],
       files.map(f => [
         dv.fileLink(f.path),
         new Date(f.stat.mtime).toLocaleString(),
