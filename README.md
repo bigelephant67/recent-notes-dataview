@@ -233,7 +233,10 @@ npm run build
 
 ## 🖼 Screenshots
 
-> *(Add screenshots to `assets/screenshots/` and update these paths)*
+| Dataview Preview | Verification Banner | Plugin Settings |
+| :---: | :---: | :---: |
+| <img src="https://raw.githubusercontent.com/sujit-waghmare/recent-notes-dataview/8d3e59725741d32eff8aea692a474857ba40c571/assets/screenshots/Recent-Notes-For-Dataview-Preview.png" width="100%"> | <img src="https://raw.githubusercontent.com/sujit-waghmare/recent-notes-dataview/8d3e59725741d32eff8aea692a474857ba40c571/assets/screenshots/Recent-Notes-Verification-Banner.png" width="100%"> | <img src="https://raw.githubusercontent.com/sujit-waghmare/recent-notes-dataview/8d3e59725741d32eff8aea692a474857ba40c571/assets/screenshots/recent-notes-dataview-settings.png" width="100%"> |
+
 
 ---
 
