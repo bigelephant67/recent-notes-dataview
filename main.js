@@ -1,12 +1,18 @@
 "use strict";
 
 /* -------------------------------------------------------
-   Recent Notes for Dataview  –  Obsidian Plugin  v1.3.0
+   Recent Notes for Dataview  –  Obsidian Plugin  v1.4.0
    Drop main.js, manifest.json, and styles.css into:
    .obsidian/plugins/recent-notes-dataview/
 ------------------------------------------------------- */
 
 var obsidian = require("obsidian");
+
+// ── Constants ─────────────────────────────────────────
+const RECENT_NOTES_PLUGIN_ID = "recent-notes"; // Kamil Rudnicki's plugin ID
+const NATIVE_BUFFER_SIZE     = 100;             // internal tracking buffer
+const NATIVE_MAX_DISPLAY     = 20;              // fallback max when recent-notes absent
+const INTEGRATION_MAX        = 100;             // max when recent-notes is present
 
 // ── Default settings ──────────────────────────────────
 const DEFAULT_SETTINGS = {
@@ -50,6 +56,33 @@ function isExcluded(filePath, excludedFolders, excludedTitles) {
 	);
 }
 
+/**
+ * Try to pull the recent file list from the "recent-notes" plugin by
+ * Kamil Rudnicki (plugin ID: "recent-notes"). That plugin keeps an
+ * internal `recentFiles` array of up to 100 paths in its settings.
+ * Returns null if the plugin is not installed or its data is unavailable.
+ */
+function getRecentNotesPluginPaths(app) {
+	try {
+		const rnPlugin = app.plugins?.plugins?.[RECENT_NOTES_PLUGIN_ID];
+		if (!rnPlugin) return null;
+
+		// The plugin stores its list in settings.recentFiles as an array of
+		// objects: { path: string, ... } or plain strings depending on version.
+		const data = rnPlugin.settings?.recentFiles;
+		if (!Array.isArray(data) || data.length === 0) return null;
+
+		// Normalise — handle both string[] and object[] shapes
+		return data
+			.map((entry) =>
+				typeof entry === "string" ? entry : entry?.path ?? null
+			)
+			.filter(Boolean);
+	} catch {
+		return null;
+	}
+}
+
 // ── Settings Tab ──────────────────────────────────────
 class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 	constructor(app, plugin) {
@@ -66,18 +99,41 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			.setName("Recent Notes for Dataview")
 			.setHeading();
 
+		// Detect whether the recent-notes plugin is installed
+		const rnInstalled = !!this.plugin.app.plugins?.plugins?.[RECENT_NOTES_PLUGIN_ID];
+		const sliderMax   = rnInstalled ? INTEGRATION_MAX : NATIVE_MAX_DISPLAY;
+		const sourceLabel = rnInstalled
+			? `Source: Recent Notes plugin (up to ${INTEGRATION_MAX} notes available).`
+			: `Source: Native tracking (up to ${NATIVE_MAX_DISPLAY} notes). Install the "Recent Notes" plugin by Kamil Rudnicki to unlock up to ${INTEGRATION_MAX} notes.`;
+
 		containerEl.createEl("p", {
 			text: "Tracks recently opened notes and exposes them to DataviewJS queries.",
 			cls: "setting-item-description",
 		});
 
+		// Integration status banner
+		const banner = containerEl.createEl("div", {
+			cls: rnInstalled ? "rn-banner rn-banner-ok" : "rn-banner rn-banner-warn",
+		});
+		banner.createEl("span", {
+			text: rnInstalled
+				? "✅ Recent Notes plugin detected — up to 100 recent notes available."
+				: `⚠ Recent Notes plugin not found — using native tracking (max ${NATIVE_MAX_DISPLAY} notes).`,
+		});
+
 		// ── Count slider ─────────────────────────────────
+		// Clamp saved value to new max if needed
+		if (this.plugin.settings.maxRecentNotes > sliderMax) {
+			this.plugin.settings.maxRecentNotes = sliderMax;
+			void this.plugin.saveSettings();
+		}
+
 		new obsidian.Setting(containerEl)
 			.setName("Number of recent notes to show")
-			.setDesc("Choose between 5 and 10. Takes effect immediately.")
+			.setDesc(`Choose between 5 and ${sliderMax}. ${sourceLabel}`)
 			.addSlider((slider) =>
 				slider
-					.setLimits(5, 10, 1)
+					.setLimits(5, sliderMax, 1)
 					.setValue(this.plugin.settings.maxRecentNotes)
 					.setDynamicTooltip()
 					.onChange(async (value) => {
@@ -98,7 +154,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			cls: "setting-item-description",
 		});
 
-		// Folder add row
 		const folderAddRow = containerEl.createEl("div", { cls: "rn-add-row" });
 
 		const folderInput = folderAddRow.createEl("input", { type: "text" });
@@ -106,7 +161,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 		folderInput.addClass("rn-text-input");
 		folderInput.setAttribute("list", "rn-folder-list");
 
-		// Folder autocomplete datalist
 		const folderDatalist = containerEl.createEl("datalist");
 		folderDatalist.id = "rn-folder-list";
 		this.plugin.app.vault
@@ -140,7 +194,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			if (e.key === "Enter") void doAddFolder();
 		});
 
-		// Folder list
 		const folderList = containerEl.createEl("div", { cls: "rn-item-list" });
 		const excludedFolders = this.plugin.settings.excludedFolders;
 
@@ -183,7 +236,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			cls: "setting-item-description",
 		});
 
-		// Title add wrapper
 		const titleAddWrapper = containerEl.createEl("div", {
 			cls: "rn-title-add-wrapper",
 		});
@@ -199,7 +251,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			cls: "rn-add-btn",
 		});
 
-		// Exact match toggle
 		const exactRow = titleAddWrapper.createEl("div", { cls: "rn-exact-row" });
 		let exactMatchEnabled = false;
 
@@ -260,7 +311,6 @@ class RecentNotesSettingTab extends obsidian.PluginSettingTab {
 			if (e.key === "Enter") void doAddTitle();
 		});
 
-		// Title list
 		const titleList = containerEl.createEl("div", { cls: "rn-item-list" });
 		const excludedTitles = this.plugin.settings.excludedTitles;
 
@@ -395,6 +445,7 @@ class RecentNotesPlugin extends obsidian.Plugin {
 	async onload() {
 		await this.loadSettings();
 
+		// Native tracking — always runs as fallback
 		this.registerEvent(
 			this.app.workspace.on("file-open", (file) => {
 				if (file && file.extension === "md") {
@@ -420,17 +471,31 @@ class RecentNotesPlugin extends obsidian.Plugin {
 		// nothing to clean up
 	}
 
+	/**
+	 * Native tracker — always keeps our own buffer of 100 paths.
+	 * Used as fallback when recent-notes plugin is absent.
+	 */
 	trackRecentFile(path) {
 		if (isExcluded(path, this.settings.excludedFolders, this.settings.excludedTitles))
 			return;
 
 		let files = this.settings.recentFiles.filter((f) => f !== path);
 		files.unshift(path);
-		files = files.slice(0, 10);
+		files = files.slice(0, NATIVE_BUFFER_SIZE);
 		this.settings.recentFiles = files;
 		void this.saveSettings();
 	}
 
+	/**
+	 * Public API for DataviewJS.
+	 *
+	 * Priority:
+	 *   1. Pull paths from "recent-notes" plugin (Kamil Rudnicki) if installed → up to 100
+	 *   2. Fall back to our own native tracking → up to 20
+	 *
+	 * @param {object}  [opts]
+	 * @param {string}  [opts.fromFolder] — only return files inside this folder
+	 */
 	getRecentFiles(opts) {
 		const max = this.settings.maxRecentNotes;
 		const fromFolder =
@@ -438,9 +503,14 @@ class RecentNotesPlugin extends obsidian.Plugin {
 				? opts.fromFolder.replace(/\\/g, "/").replace(/\/+$/, "")
 				: null;
 
+		// ── Source selection ─────────────────────────────
+		const externalPaths = getRecentNotesPluginPaths(this.app);
+		const sourcePaths   = externalPaths ?? this.settings.recentFiles;
+
+		// ── Build result ─────────────────────────────────
 		const result = [];
 
-		for (const path of this.settings.recentFiles) {
+		for (const path of sourcePaths) {
 			if (result.length >= max) break;
 			if (isExcluded(path, this.settings.excludedFolders, this.settings.excludedTitles))
 				continue;
@@ -466,3 +536,4 @@ class RecentNotesPlugin extends obsidian.Plugin {
 }
 
 module.exports = RecentNotesPlugin;
+						
