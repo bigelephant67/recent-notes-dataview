@@ -8,10 +8,15 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "jsx": "react",
-    "lib": ["ES6", "DOM"],
-    "moduleResolution": "bundler",
+    "lib": [
+      "ES6",
+      "DOM"
+    ],
+    "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }
