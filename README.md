@@ -260,15 +260,3 @@ npm run build
 MIT © [Waghmare](https://github.com/sujit-waghmare)
 
 ---
-
-## ❤️ Support
-
-If you find this plugin helpful, please consider **starring** the project on [GitHub](https://github.com/sujit-waghmare/recent-notes-dataview) to show your support! 
-
-If you'd like to go the extra mile, you can show some love through a donation—it helps keep the coffee flowing and the code growing.
-
-<a href="https://buymeacoffee.com/sujit.waghmare">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" width="145">
-</a>
-
-
